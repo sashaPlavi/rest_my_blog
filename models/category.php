@@ -24,4 +24,24 @@ class Category
 
         return $stmt;
     }
+    public function create()
+    {
+        $query = 'INSERT INTO ' . $this->table . ' SET name=:name ';
+
+        $stmt = $this->connection->prepare($query);
+        //clean
+
+        $this->name = htmlspecialchars(strip_tags($this->name));
+
+
+        $stmt->bindParam(':name', $this->name);
+
+
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            printf("Error: %s.\n", $stmt->error);
+            return false;
+        }
+    }
 }
