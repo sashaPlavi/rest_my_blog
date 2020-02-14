@@ -24,6 +24,22 @@ class Category
 
         return $stmt;
     }
+    public function read_single()
+    {
+
+        $query = 'SELECT id, name FROM ' . $this->table . ' WHERE id= ? LIMIT 0,1';
+
+        $stmt = $this->connection->prepare($query);
+
+        $stmt->bindParam(1, $this->id);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $this->name = $row['name'];
+        $this->id = $row['id'];
+
+
+        return $stmt;
+    }
     public function create()
     {
         $query = 'INSERT INTO ' . $this->table . ' SET name=:name ';
